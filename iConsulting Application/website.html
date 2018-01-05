@@ -1,0 +1,124 @@
+<html>
+<head>
+    <title>iConsulting</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <style>
+        body {
+            background-image: url("static/da 10.jpg");
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-size: 20px;
+
+        }
+
+        .button {
+            font-color: black;
+            margin-left: 121px;
+            margin-top: 10px;
+            font-size: 20px;
+        }
+
+        div.left {
+
+            height: auto;
+            width: 49%;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+
+        }
+
+        div.right {
+
+            text-align: left;
+            height: auto;
+            width: 300px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+
+        }
+
+        div.bottom a {
+
+            color: black;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        div.bottom {
+            position: absolute;
+            bottom: 10px;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+        }
+
+        div.bottom a:hover {
+
+            color: darkblue;
+
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>
+        <center><b>Detection of Diabetic Retinopathy</b></center>
+    </h1>
+</header>
+<p>
+<center><b> Diabetic retinopathy is the leading cause of blindness in the working-age population of the developed world.
+    It is estimated to affect over 93 million people.
+</p>
+<div id="container">
+    <div class="left">
+        <!-- <input type="button" value="Upload"> -->
+        <form action="/predict" id="predict" method="post" enctype="multipart/form-data">
+            Select image to upload:
+            <input type="file" name="filechooser" id="filechooser" onchange="fileUpload(event)"/>
+            <!--<input type="submit" value="Upload Image" name="submit"/> -->
+        </form>
+
+    </div>
+    <div class="right">
+        <h5>Level of Diabetic retinopathy explaination </h5>
+        <font size="2">
+            <p>Level 0 : NO DR</p >
+            <p>Level 1 : MILD</p >
+            <p>Level 2 : MODERATE</p >
+            <p>Level 3 : SEVERE</p >
+            <p>Level 4 : PROLIFERATIVE DR</p >
+        </font>
+    </div>
+    <div class="bottom">
+        <a href="" target="_blank">Click here to watch the video</a>
+    </div>
+    <script type='text/javascript'>
+        function fileUpload(event) {
+            var input = event.target;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/predict');
+
+            // Function : complete uploading image
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(this.responseText);
+                    alert(response.prediction)
+                } else {
+                    console.log('uploading error!');
+                }
+            };
+            xhr.send(input.files[0]);
+        }
+
+    </script>
+</body>
+</html>
