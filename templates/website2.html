@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>iConsulting</title>
+<link rel="stylesheet" type="text/css" href="static/style.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<style>
+body{
+  background-image: url("static/da 10.jpg");
+  height:100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-size: 20px;
+
+}
+
+.button{
+	font-color:black;
+	margin-left:121px;
+	margin-top:10px;
+  font-size: 20px;
+}
+
+div.left{
+  
+    height: auto;
+    width: 49%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    background-color: rgba(255,255,255,0.5);
+    font-size:20px;
+    
+}
+
+div.right{
+
+    text-align:left;
+    height: auto;
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    background-color: rgba(255,255,255,0.5);
+    font-size:20px;
+
+}
+div.bottom a{
+
+  color:black;
+  text-decoration: none; 
+  transition: all 0.3s ease;
+}
+div.bottom{
+  position: absolute;
+  bottom:10px;
+  margin:0 auto;
+  left: 0;
+  right:0;
+}
+
+div.bottom a:hover{
+
+  color:darkblue;
+ 
+}
+
+</style>
+</head>
+<body>
+<header>
+<h1><center><b>Detection of Diabetic Retinopathy</h1>
+</header>
+<p><center><b>  Diabetic retinopathy is the leading cause of blindness in the working-age population of the developed world. It is estimated to affect over 93 million people.</p>
+<div id="container">
+   <div class="left">
+   	<!-- <input type="button" value="Upload"> -->
+    <form action="/predict" id="predict" method="post" >
+      Select image to upload:
+      <input type="file" name="filechooser" id="filechooser">
+      <input type="submit" value="Upload Image" name="submit">
+    </form>
+
+   </div>
+   <div class="right">
+    <form action="/action_page.php">
+  <label for="NO DR">No DR</label>
+  <input type="radio" name="Results" id="NO DR" value="NO DR"><br>
+  <label for="MILD">MILD</label>
+  <input type="radio" name="Results" id="MILD" value="MILD"><br>
+  <label for="MODERATE">MODERATE</label>
+  <input type="radio" name="Results" id="MODERATE" value="MODERATE"><br>
+  <label for="SEVERE">SEVERE</label>
+  <input type="radio" name="Results" id="SEVERE" value="SEVERE"><br>
+  <label for="PROLIFERATIVE DR">PROLIFERATIVE DR</label>
+  <input type="radio" name="Results" id="PROLIFERATIVE DR" value="PROLIFERATIVE DR"><br><br>
+   </div>
+   <div class="bottom">
+    <a href="" target="_blank">Click here to watch the video</a>
+</div>
+<script type='text/javascript'>
+    /* attach a submit handler to the form */
+    $("#predict").submit(function(event) {
+
+      event.preventDefault();
+
+    var blobFile = $('#filechooser').files[0];
+    var formData = new FormData();
+    formData.append("fileToUpload", blobFile);
+
+    $.ajax({
+       url: "upload.php",
+       type: "POST",
+       data: formData,
+       processData: false,
+       contentType: false,
+       success: function(response) {
+           // .. do something
+       },
+       error: function(jqXHR, textStatus, errorMessage) {
+           console.log(errorMessage); // Optional
+       }
+    });
+}
+      /* stop form from submitting normally */
+
+      console.log(blobFile);
+      
+      /* get the action attribute from the <form action=""> element */
+      var $form = $( this ),
+          payload = formData
+          url = $form.attr( 'action' );
+
+      /* Send the data using post with element id name and name2*/
+      var posting = $.post( url, payload );
+
+      console.log(formData);
+
+      /* Alerts the results */
+      posting.done(function( data ) {
+        // if (data.prediction >= 50) {
+        //     alert('Your probability of survival is: ' + data.prediction + '%\nYou probably would have made it!')
+        // } else {
+        //     alert('Your probability of survival is: ' + data.prediction + '%\nYou probably would have sunk :(')
+        // };
+      });
+    });
+</script>
+</body>
+</html>
